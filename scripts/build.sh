@@ -1,0 +1,4 @@
+
+make
+
+./scripts/run.sh
