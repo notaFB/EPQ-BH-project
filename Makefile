@@ -7,10 +7,10 @@ CXX = g++
 CXXFLAGS = -Wall -g
 
 # Source file
-SRC = main.cpp
+SRC = black_hole.cpp
 
 # Output executable
-TARGET = main
+TARGET = black_hole_simulation
 
 # Default target
 all: $(TARGET)
