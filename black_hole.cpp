@@ -277,11 +277,27 @@ int ix = (i + NX) % NX;
 int jx = (j + NY) % NY;
 int kx = (k + NZ) % NZ;
 
-void evolve_phi(double dt) {
+void compute_phi_derivative(
+    double phi_k[NX][NY][NZ], 
+    double phi[NX][NY][NZ], 
+    double alpha[NX][NY][NZ], 
+    double beta_x[NX][NY][NZ], 
+    double beta_y[NX][NY][NZ], 
+    double beta_z[NX][NY][NZ], 
+    double gamma_tilde[NX][NY][NZ][3][3], 
+    double K[NX][NY][NZ], 
+    double A_tilde[NX][NY][NZ][3][3], 
+    double Lambda_tilde_x[NX][NY][NZ], 
+    double Lambda_tilde_y[NX][NY][NZ], 
+    double Lambda_tilde_z[NX][NY][NZ], 
+    double B_x[NX][NY][NZ], 
+    double B_y[NX][NY][NZ], 
+    double B_z[NX][NY][NZ],
+    double dt_factor
+) {
     for (int i = 0; i < NX; i++) {
         for (int j = 0; j < NY; j++) {
             for (int k = 0; k < NZ; k++) {
-                // Wrap-around indices
                 int ip1 = (i + 1 + NX) % NX;
                 int im1 = (i - 1 + NX) % NX;
                 int jp1 = (j + 1 + NY) % NY;
@@ -297,43 +313,48 @@ void evolve_phi(double dt) {
                                   (beta_y[i][jp1][k] - beta_y[i][jm1][k]) / (2.0 * dy) +
                                   (beta_z[i][j][kp1] - beta_z[i][j][km1]) / (2.0 * dz);
 
-                double dphi_dt = (1.0 / 6.0) * div_beta - (1.0 / 6.0) * alpha[i][j][k] * K[i][j][k]
-                                 + beta_x[i][j][k] * dphi_dx
-                                 + beta_y[i][j][k] * dphi_dy
-                                 + beta_z[i][j][k] * dphi_dz;
-
-                phi[i][j][k] += dt * dphi_dt;
+                phi_k[i][j][k] = dt_factor * (
+                    (1.0 / 6.0) * div_beta 
+                    - (1.0 / 6.0) * alpha[i][j][k] * K[i][j][k]
+                    + beta_x[i][j][k] * dphi_dx
+                    + beta_y[i][j][k] * dphi_dy
+                    + beta_z[i][j][k] * dphi_dz
+                );
             }
         }
     }
 }
 
-void evolve_gamma_tilde(double dt) {
+
+
+void compute_gamma_tilde_derivative(
+    double gamma_tilde_k[NX][NY][NZ][3][3],
+    double gamma_tilde[NX][NY][NZ][3][3],
+    double alpha[NX][NY][NZ],
+    double beta_x[NX][NY][NZ],
+    double beta_y[NX][NY][NZ],
+    double beta_z[NX][NY][NZ],
+    double K[NX][NY][NZ],
+    double A_tilde[NX][NY][NZ][3][3],
+    double Lambda_tilde_x[NX][NY][NZ],
+    double Lambda_tilde_y[NX][NY][NZ],
+    double Lambda_tilde_z[NX][NY][NZ],
+    double B_x[NX][NY][NZ],
+    double B_y[NX][NY][NZ],
+    double B_z[NX][NY][NZ],
+    double dt_factor
+) {
     for (int i = 0; i < NX; i++) {
         for (int j = 0; j < NY; j++) {
             for (int k = 0; k < NZ; k++) {
-                int ip1 = (i + 1 + NX) % NX;
-                int im1 = (i - 1 + NX) % NX;
-                int jp1 = (j + 1 + NY) % NY;
-                int jm1 = (j - 1 + NY) % NY;
-                int kp1 = (k + 1 + NZ) % NZ;
-                int km1 = (k - 1 + NZ) % NZ;
-
                 for (int l = 0; l < 3; l++) {
                     for (int m = 0; m < 3; m++) {
-                        double dbeta_dx = (beta_x[ip1][j][k] - beta_x[im1][j][k]) / (2.0 * dx);
-                        double dbeta_dy = (beta_y[i][jp1][k] - beta_y[i][jm1][k]) / (2.0 * dy);
-                        double dbeta_dz = (beta_z[i][j][kp1] - beta_z[i][j][km1]) / (2.0 * dz);
-
-                        double div_beta = dbeta_dx + dbeta_dy + dbeta_dz;
-
-                        double dgamma_tilde_dt = -2.0 * alpha[i][j][k] * A_tilde[i][j][k][l][m]
-                            - (2.0 / 3.0) * gamma_tilde[i][j][k][l][m] * div_beta
-                            + beta_x[i][j][k] * (gamma_tilde[ip1][j][k][l][m] - gamma_tilde[im1][j][k][l][m]) / (2.0 * dx)
-                            + beta_y[i][j][k] * (gamma_tilde[i][jp1][k][l][m] - gamma_tilde[i][jm1][k][l][m]) / (2.0 * dy)
-                            + beta_z[i][j][k] * (gamma_tilde[i][j][kp1][l][m] - gamma_tilde[i][j][km1][l][m]) / (2.0 * dz);
-
-                        gamma_tilde[i][j][k][l][m] += dt * dgamma_tilde_dt;
+                        gamma_tilde_k[i][j][k][l][m] = dt_factor * (
+                            -2.0 * alpha[i][j][k] * A_tilde[i][j][k][l][m]
+                            + beta_x[i][j][k] * (gamma_tilde[(i+1)%NX][j][k][l][m] - gamma_tilde[(i-1+NX)%NX][j][k][l][m]) / (2.0 * dx)
+                            + beta_y[i][j][k] * (gamma_tilde[i][(j+1)%NY][k][l][m] - gamma_tilde[i][(j-1+NY)%NY][k][l][m]) / (2.0 * dy)
+                            + beta_z[i][j][k] * (gamma_tilde[i][j][(k+1)%NZ][l][m] - gamma_tilde[i][j][(k-1+NZ)%NZ][l][m]) / (2.0 * dz)
+                        );
                     }
                 }
             }
@@ -341,73 +362,74 @@ void evolve_gamma_tilde(double dt) {
     }
 }
 
-void evolve_K(double dt) {
+
+
+void compute_K_derivative(
+    double K_k[NX][NY][NZ],
+    double K[NX][NY][NZ],
+    double alpha[NX][NY][NZ],
+    double beta_x[NX][NY][NZ],
+    double beta_y[NX][NY][NZ],
+    double beta_z[NX][NY][NZ],
+    double gamma_tilde[NX][NY][NZ][3][3],
+    double A_tilde[NX][NY][NZ][3][3],
+    double Lambda_tilde_x[NX][NY][NZ],
+    double Lambda_tilde_y[NX][NY][NZ],
+    double Lambda_tilde_z[NX][NY][NZ],
+    double B_x[NX][NY][NZ],
+    double B_y[NX][NY][NZ],
+    double B_z[NX][NY][NZ],
+    double dt_factor
+) {
     for (int i = 0; i < NX; i++) {
         for (int j = 0; j < NY; j++) {
             for (int k = 0; k < NZ; k++) {
-                int ip1 = (i + 1 + NX) % NX;
-                int im1 = (i - 1 + NX) % NX;
-                int jp1 = (j + 1 + NY) % NY;
-                int jm1 = (j - 1 + NY) % NY;
-                int kp1 = (k + 1 + NZ) % NZ;
-                int km1 = (k - 1 + NZ) % NZ;
+                K_k[i][j][k] = dt_factor * (
+                    alpha[i][j][k] * (A_tilde[i][j][k][0][0] * A_tilde[i][j][k][0][0] +
+                                      A_tilde[i][j][k][1][1] * A_tilde[i][j][k][1][1] +
+                                      A_tilde[i][j][k][2][2] * A_tilde[i][j][k][2][2] +
+                                      2.0 * A_tilde[i][j][k][0][1] * A_tilde[i][j][k][0][1] +
+                                      2.0 * A_tilde[i][j][k][0][2] * A_tilde[i][j][k][0][2] +
+                                      2.0 * A_tilde[i][j][k][1][2] * A_tilde[i][j][k][1][2]) +
+                    (1.0 / 3.0) * K[i][j][k] * K[i][j][k]
+                );
+            }
+        }
+    }
+}
 
-                double laplacian_alpha = (alpha[ip1][j][k] - 2.0 * alpha[i][j][k] + alpha[im1][j][k]) / (dx * dx) +
-                                         (alpha[i][jp1][k] - 2.0 * alpha[i][j][k] + alpha[i][jm1][k]) / (dy * dy) +
-                                         (alpha[i][j][kp1] - 2.0 * alpha[i][j][k] + alpha[i][j][km1]) / (dz * dz);
 
-                double A_tilde_squared = 0.0;
+
+void compute_A_tilde_derivative(
+    double A_tilde_k[NX][NY][NZ][3][3],
+    double A_tilde[NX][NY][NZ][3][3],
+    double alpha[NX][NY][NZ],
+    double beta_x[NX][NY][NZ],
+    double beta_y[NX][NY][NZ],
+    double beta_z[NX][NY][NZ],
+    double gamma_tilde[NX][NY][NZ][3][3],
+    double K[NX][NY][NZ],
+    double Lambda_tilde_x[NX][NY][NZ],
+    double Lambda_tilde_y[NX][NY][NZ],
+    double Lambda_tilde_z[NX][NY][NZ],
+    double B_x[NX][NY][NZ],
+    double B_y[NX][NY][NZ],
+    double B_z[NX][NY][NZ],
+    double dt_factor
+) {
+    for (int i = 0; i < NX; i++) {
+        for (int j = 0; j < NY; j++) {
+            for (int k = 0; k < NZ; k++) {
                 for (int l = 0; l < 3; l++) {
                     for (int m = 0; m < 3; m++) {
-                        A_tilde_squared += A_tilde[i][j][k][l][m] * A_tilde[i][j][k][l][m];
-                    }
-                }
-
-                double dK_dt = alpha[i][j][k] * (A_tilde_squared + (1.0 / 3.0) * K[i][j][k] * K[i][j][k])
-                    - laplacian_alpha
-                    + beta_x[i][j][k] * (K[ip1][j][k] - K[im1][j][k]) / (2.0 * dx)
-                    + beta_y[i][j][k] * (K[i][jp1][k] - K[i][jm1][k]) / (2.0 * dy)
-                    + beta_z[i][j][k] * (K[i][j][kp1] - K[i][j][km1]) / (2.0 * dz);
-
-                K[i][j][k] += dt * dK_dt;
-            }
-        }
-    }
-}
-
-void evolve_A_tilde(double dt) {
-    for (int i = 0; i < NX; i++) {
-        for (int j = 0; j < NY; j++) {
-            for (int k = 0; k < NZ; k++) {
-                int ip1 = (i + 1 + NX) % NX;
-                int im1 = (i - 1 + NX) % NX;
-                int jp1 = (j + 1 + NY) % NY;
-                int jm1 = (j - 1 + NY) % NY;
-                int kp1 = (k + 1 + NZ) % NZ;
-                int km1 = (k - 1 + NZ) % NZ;
-
-                for (int l = 0; l < 3; l++) {
-                    for (int m = 0; m < 3; m++) {
-                        double dbeta_dx = (beta_x[ip1][j][k] - beta_x[im1][j][k]) / (2.0 * dx);
-                        double dbeta_dy = (beta_y[i][jp1][k] - beta_y[i][jm1][k]) / (2.0 * dy);
-                        double dbeta_dz = (beta_z[i][j][kp1] - beta_z[i][j][km1]) / (2.0 * dz);
-
-                        double div_beta = dbeta_dx + dbeta_dy + dbeta_dz;
-
-                        double dA_tilde_dt = - (2.0 / 3.0) * A_tilde[i][j][k][l][m] * div_beta
-                            + alpha[i][j][k] * (
-                                K[i][j][k] * A_tilde[i][j][k][l][m]
-                                - 2.0 * (A_tilde[i][j][k][l][0] * A_tilde[i][j][k][0][m])
-                            )
-                            + 4.0 * exp(-4.0 * phi[i][j][k]) * (
-                                alpha[i][j][k] * Ricci_ij[i][j][k][l][m]
-                                - (alpha[ip1][j][k] - 2.0 * alpha[i][j][k] + alpha[im1][j][k]) / (dx * dx)
-                            )
-                            + beta_x[i][j][k] * (A_tilde[ip1][j][k][l][m] - A_tilde[im1][j][k][l][m]) / (2.0 * dx)
-                            + beta_y[i][j][k] * (A_tilde[i][jp1][k][l][m] - A_tilde[i][jm1][k][l][m]) / (2.0 * dy)
-                            + beta_z[i][j][k] * (A_tilde[i][j][kp1][l][m] - A_tilde[i][j][km1][l][m]) / (2.0 * dz);
-
-                        A_tilde[i][j][k][l][m] += dt * dA_tilde_dt;
+                        A_tilde_k[i][j][k][l][m] = dt_factor * (
+                            - (2.0 / 3.0) * A_tilde[i][j][k][l][m] * K[i][j][k]
+                            + alpha[i][j][k] * (K[i][j][k] * A_tilde[i][j][k][l][m]
+                                                - 2.0 * A_tilde[i][j][k][l][m] * A_tilde[i][j][k][l][m])
+                            + beta_x[i][j][k] * (A_tilde[(i+1)%NX][j][k][l][m] - A_tilde[(i-1+NX)%NX][j][k][l][m]) / (2.0 * dx)
+                            + beta_y[i][j][k] * (A_tilde[i][(j+1)%NY][k][l][m] - A_tilde[i][(j-1+NY)%NY][k][l][m]) / (2.0 * dy)
+                            + beta_z[i][j][k] * (A_tilde[i][j][(k+1)%NZ][l][m] - A_tilde[i][j][(k-1+NZ)%NZ][l][m]) / (2.0 * dz)
+                        );
                     }
                 }
             }
@@ -415,35 +437,81 @@ void evolve_A_tilde(double dt) {
     }
 }
 
-void evolve_Lambda_tilde(double dt) {
+
+
+void compute_Lambda_tilde_derivative(
+    double Lambda_tilde_x_k[NX][NY][NZ],
+    double Lambda_tilde_y_k[NX][NY][NZ],
+    double Lambda_tilde_z_k[NX][NY][NZ],
+    double Lambda_tilde_x[NX][NY][NZ],
+    double Lambda_tilde_y[NX][NY][NZ],
+    double Lambda_tilde_z[NX][NY][NZ],
+    double gamma_tilde[NX][NY][NZ][3][3],
+    double alpha[NX][NY][NZ],
+    double beta_x[NX][NY][NZ],
+    double beta_y[NX][NY][NZ],
+    double beta_z[NX][NY][NZ],
+    double A_tilde[NX][NY][NZ][3][3],
+    double B_x[NX][NY][NZ],
+    double B_y[NX][NY][NZ],
+    double B_z[NX][NY][NZ],
+    double dt_factor
+) {
     for (int i = 0; i < NX; i++) {
         for (int j = 0; j < NY; j++) {
             for (int k = 0; k < NZ; k++) {
-                int ip1 = (i + 1 + NX) % NX;
-                int im1 = (i - 1 + NX) % NX;
-                int jp1 = (j + 1 + NY) % NY;
-                int jm1 = (j - 1 + NY) % NY;
-                int kp1 = (k + 1 + NZ) % NZ;
-                int km1 = (k - 1 + NZ) % NZ;
-
-                double dGamma_tilde_dt = (
-                    (beta_x[ip1][j][k] - 2.0 * beta_x[i][j][k] + beta_x[im1][j][k]) / (dx * dx) +
-                    (beta_y[i][jp1][k] - 2.0 * beta_y[i][j][k] + beta_y[i][jm1][k]) / (dy * dy) +
-                    (beta_z[i][j][kp1] - 2.0 * beta_z[i][j][k] + beta_z[i][j][km1]) / (dz * dz)
-                ) - 2.0 * A_tilde[i][j][k][0][0] * alpha[i][j][k]
-                + beta_x[i][j][k] * (Gamma_tilde_x[ip1][j][k] - Gamma_tilde_x[im1][j][k]) / (2.0 * dx)
-                + beta_y[i][j][k] * (Gamma_tilde_y[i][jp1][k] - Gamma_tilde_y[i][jm1][k]) / (2.0 * dy)
-                + beta_z[i][j][k] * (Gamma_tilde_z[i][j][kp1] - Gamma_tilde_z[i][j][km1]) / (2.0 * dz);
-
-                Lambda_tilde_x[i][j][k] += dt * dGamma_tilde_dt;
-                Lambda_tilde_y[i][j][k] += dt * dGamma_tilde_dt;
-                Lambda_tilde_z[i][j][k] += dt * dGamma_tilde_dt;
+                Lambda_tilde_x_k[i][j][k] = dt_factor * (
+                    alpha[i][j][k] * (
+                        (A_tilde[i][j][k][0][1] * gamma_tilde[i][j][k][0][1])
+                        + (A_tilde[i][j][k][0][2] * gamma_tilde[i][j][k][0][2])
+                    )
+                    + beta_x[i][j][k] * (Lambda_tilde_x[(i+1)%NX][j][k] - Lambda_tilde_x[(i-1+NX)%NX][j][k]) / (2.0 * dx)
+                    + beta_y[i][j][k] * (Lambda_tilde_y[i][(j+1)%NY][k] - Lambda_tilde_y[i][(j-1+NY)%NY][k]) / (2.0 * dy)
+                    + beta_z[i][j][k] * (Lambda_tilde_z[i][j][(k+1)%NZ] - Lambda_tilde_z[i][j][(k-1+NZ)%NZ]) / (2.0 * dz)
+                );
+                Lambda_tilde_y_k[i][j][k] = dt_factor * (
+                    alpha[i][j][k] * (
+                        (A_tilde[i][j][k][1][0] * gamma_tilde[i][j][k][1][0])
+                        + (A_tilde[i][j][k][1][2] * gamma_tilde[i][j][k][1][2])
+                    )
+                    + beta_x[i][j][k] * (Lambda_tilde_x[(i+1)%NX][j][k] - Lambda_tilde_x[(i-1+NX)%NX][j][k]) / (2.0 * dx)
+                    + beta_y[i][j][k] * (Lambda_tilde_y[i][(j+1)%NY][k] - Lambda_tilde_y[i][(j-1+NY)%NY][k]) / (2.0 * dy)
+                    + beta_z[i][j][k] * (Lambda_tilde_z[i][j][(k+1)%NZ] - Lambda_tilde_z[i][j][(k-1+NZ)%NZ]) / (2.0 * dz)
+                );
+                Lambda_tilde_z_k[i][j][k] = dt_factor * (
+                    alpha[i][j][k] * (
+                        (A_tilde[i][j][k][2][0] * gamma_tilde[i][j][k][2][0])
+                        + (A_tilde[i][j][k][2][1] * gamma_tilde[i][j][k][2][1])
+                    )
+                    + beta_x[i][j][k] * (Lambda_tilde_x[(i+1)%NX][j][k] - Lambda_tilde_x[(i-1+NX)%NX][j][k]) / (2.0 * dx)
+                    + beta_y[i][j][k] * (Lambda_tilde_y[i][(j+1)%NY][k] - Lambda_tilde_y[i][(j-1+NY)%NY][k]) / (2.0 * dy)
+                    + beta_z[i][j][k] * (Lambda_tilde_z[i][j][(k+1)%NZ] - Lambda_tilde_z[i][j][(k-1+NZ)%NZ]) / (2.0 * dz)
+                );
             }
         }
     }
 }
 
-void evolve_alpha(double dt) {
+
+
+void compute_alpha_derivative(
+    double alpha_k[NX][NY][NZ], 
+    double phi[NX][NY][NZ], 
+    double alpha[NX][NY][NZ], 
+    double beta_x[NX][NY][NZ], 
+    double beta_y[NX][NY][NZ], 
+    double beta_z[NX][NY][NZ], 
+    double gamma_tilde[NX][NY][NZ][3][3], 
+    double K[NX][NY][NZ], 
+    double A_tilde[NX][NY][NZ][3][3], 
+    double Lambda_tilde_x[NX][NY][NZ], 
+    double Lambda_tilde_y[NX][NY][NZ], 
+    double Lambda_tilde_z[NX][NY][NZ], 
+    double B_x[NX][NY][NZ], 
+    double B_y[NX][NY][NZ], 
+    double B_z[NX][NY][NZ],
+    double dt_factor
+) {
     for (int i = 0; i < NX; i++) {
         for (int j = 0; j < NY; j++) {
             for (int k = 0; k < NZ; k++) {
@@ -458,61 +526,254 @@ void evolve_alpha(double dt) {
                 double dalpha_dy = (alpha[i][jp1][k] - alpha[i][jm1][k]) / (2.0 * dy);
                 double dalpha_dz = (alpha[i][j][kp1] - alpha[i][j][km1]) / (2.0 * dz);
 
-                double dalpha_dt = -alpha[i][j][k] * alpha[i][j][k] * K[i][j][k]
-                                   + beta_x[i][j][k] * dalpha_dx
-                                   + beta_y[i][j][k] * dalpha_dy
-                                   + beta_z[i][j][k] * dalpha_dz;
-
-                alpha[i][j][k] += dt * dalpha_dt;
+                alpha_k[i][j][k] = dt_factor * (
+                    -alpha[i][j][k] * K[i][j][k]
+                    + beta_x[i][j][k] * dalpha_dx
+                    + beta_y[i][j][k] * dalpha_dy
+                    + beta_z[i][j][k] * dalpha_dz
+                );
             }
         }
     }
 }
 
-void evolve_beta(double dt) {
+
+
+void compute_beta_derivative(
+    double beta_x_k[NX][NY][NZ], 
+    double beta_y_k[NX][NY][NZ], 
+    double beta_z_k[NX][NY][NZ], 
+    double beta_x[NX][NY][NZ], 
+    double beta_y[NX][NY][NZ], 
+    double beta_z[NX][NY][NZ], 
+    double gamma_tilde[NX][NY][NZ][3][3], 
+    double K[NX][NY][NZ], 
+    double A_tilde[NX][NY][NZ][3][3], 
+    double Lambda_tilde_x[NX][NY][NZ], 
+    double Lambda_tilde_y[NX][NY][NZ], 
+    double Lambda_tilde_z[NX][NY][NZ], 
+    double B_x[NX][NY][NZ], 
+    double B_y[NX][NY][NZ], 
+    double B_z[NX][NY][NZ],
+    double dt_factor
+) {
     for (int i = 0; i < NX; i++) {
         for (int j = 0; j < NY; j++) {
             for (int k = 0; k < NZ; k++) {
-                beta_x[i][j][k] += dt * B_x[i][j][k];
-                beta_y[i][j][k] += dt * B_y[i][j][k];
-                beta_z[i][j][k] += dt * B_z[i][j][k];
+                beta_x_k[i][j][k] = dt_factor * B_x[i][j][k];
+                beta_y_k[i][j][k] = dt_factor * B_y[i][j][k];
+                beta_z_k[i][j][k] = dt_factor * B_z[i][j][k];
             }
         }
     }
 }
 
-void evolve_B(double dt, double eta) {
+
+
+void compute_B_derivative(
+    double B_x_k[NX][NY][NZ],
+    double B_y_k[NX][NY][NZ],
+    double B_z_k[NX][NY][NZ],
+    double B_x[NX][NY][NZ],
+    double B_y[NX][NY][NZ],
+    double B_z[NX][NY][NZ],
+    double gamma_tilde[NX][NY][NZ][3][3],
+    double alpha[NX][NY][NZ],
+    double beta_x[NX][NY][NZ],
+    double beta_y[NX][NY][NZ],
+    double beta_z[NX][NY][NZ],
+    double Lambda_tilde_x[NX][NY][NZ],
+    double Lambda_tilde_y[NX][NY][NZ],
+    double Lambda_tilde_z[NX][NY][NZ],
+    double dt_factor
+) {
     for (int i = 0; i < NX; i++) {
         for (int j = 0; j < NY; j++) {
             for (int k = 0; k < NZ; k++) {
-                int ip1 = (i + 1 + NX) % NX;
-                int im1 = (i - 1 + NX) % NX;
-                int jp1 = (j + 1 + NY) % NY;
-                int jm1 = (j - 1 + NY) % NY;
-                int kp1 = (k + 1 + NZ) % NZ;
-                int km1 = (k - 1 + NZ) % NZ;
-
-                double dGamma_tilde_dx = (Gamma_tilde_x[ip1][j][k] - Gamma_tilde_x[im1][j][k]) / (2.0 * dx);
-                double dGamma_tilde_dy = (Gamma_tilde_y[i][jp1][k] - Gamma_tilde_y[i][jm1][k]) / (2.0 * dy);
-                double dGamma_tilde_dz = (Gamma_tilde_z[i][j][kp1] - Gamma_tilde_z[i][j][km1]) / (2.0 * dz);
-
-                B_x[i][j][k] += dt * (dGamma_tilde_dx - eta * B_x[i][j][k] + beta_x[i][j][k] * dGamma_tilde_dx);
-                B_y[i][j][k] += dt * (dGamma_tilde_dy - eta * B_y[i][j][k] + beta_y[i][j][k] * dGamma_tilde_dy);
-                B_z[i][j][k] += dt * (dGamma_tilde_dz - eta * B_z[i][j][k] + beta_z[i][j][k] * dGamma_tilde_dz);
+                B_x_k[i][j][k] = dt_factor * (
+                    alpha[i][j][k] * (Lambda_tilde_x[i][j][k] - beta_x[i][j][k])
+                );
+                B_y_k[i][j][k] = dt_factor * (
+                    alpha[i][j][k] * (Lambda_tilde_y[i][j][k] - beta_y[i][j][k])
+                );
+                B_z_k[i][j][k] = dt_factor * (
+                    alpha[i][j][k] * (Lambda_tilde_z[i][j][k] - beta_z[i][j][k])
+                );
             }
         }
     }
 }
 
-void evolve_bssn(double dt, double eta) {
-    evolve_phi(dt);
-    evolve_gamma_tilde(dt);
-    evolve_K(dt);
-    evolve_A_tilde(dt);
-    evolve_Lambda_tilde(dt);
-    evolve_alpha(dt);
-    evolve_beta(dt);
-    evolve_B(dt, eta);
+
+
+
+
+
+
+void rk4_step(double dt) {
+    // Temporary arrays for k1, k2, k3, k4 steps for all variables
+    double phi_k1[NX][NY][NZ], phi_k2[NX][NY][NZ], phi_k3[NX][NY][NZ], phi_k4[NX][NY][NZ];
+    double alpha_k1[NX][NY][NZ], alpha_k2[NX][NY][NZ], alpha_k3[NX][NY][NZ], alpha_k4[NX][NY][NZ];
+    double beta_x_k1[NX][NY][NZ], beta_x_k2[NX][NY][NZ], beta_x_k3[NX][NY][NZ], beta_x_k4[NX][NY][NZ];
+    double beta_y_k1[NX][NY][NZ], beta_y_k2[NX][NY][NZ], beta_y_k3[NX][NY][NZ], beta_y_k4[NX][NY][NZ];
+    double beta_z_k1[NX][NY][NZ], beta_z_k2[NX][NY][NZ], beta_z_k3[NX][NY][NZ], beta_z_k4[NX][NY][NZ];
+    double gamma_tilde_k1[NX][NY][NZ][3][3], gamma_tilde_k2[NX][NY][NZ][3][3], gamma_tilde_k3[NX][NY][NZ][3][3], gamma_tilde_k4[NX][NY][NZ][3][3];
+    double K_k1[NX][NY][NZ], K_k2[NX][NY][NZ], K_k3[NX][NY][NZ], K_k4[NX][NY][NZ];
+    double A_tilde_k1[NX][NY][NZ][3][3], A_tilde_k2[NX][NY][NZ][3][3], A_tilde_k3[NX][NY][NZ][3][3], A_tilde_k4[NX][NY][NZ][3][3];
+    double Lambda_tilde_x_k1[NX][NY][NZ], Lambda_tilde_x_k2[NX][NY][NZ], Lambda_tilde_x_k3[NX][NY][NZ], Lambda_tilde_x_k4[NX][NY][NZ];
+    double Lambda_tilde_y_k1[NX][NY][NZ], Lambda_tilde_y_k2[NX][NY][NZ], Lambda_tilde_y_k3[NX][NY][NZ], Lambda_tilde_y_k4[NX][NY][NZ];
+    double Lambda_tilde_z_k1[NX][NY][NZ], Lambda_tilde_z_k2[NX][NY][NZ], Lambda_tilde_z_k3[NX][NY][NZ], Lambda_tilde_z_k4[NX][NY][NZ];
+    double B_x_k1[NX][NY][NZ], B_x_k2[NX][NY][NZ], B_x_k3[NX][NY][NZ], B_x_k4[NX][NY][NZ];
+    double B_y_k1[NX][NY][NZ], B_y_k2[NX][NY][NZ], B_y_k3[NX][NY][NZ], B_y_k4[NX][NY][NZ];
+    double B_z_k1[NX][NY][NZ], B_z_k2[NX][NY][NZ], B_z_k3[NX][NY][NZ], B_z_k4[NX][NY][NZ];
+
+    // Temporary arrays to store intermediate values
+    double phi_temp[NX][NY][NZ], alpha_temp[NX][NY][NZ], beta_x_temp[NX][NY][NZ], beta_y_temp[NX][NY][NZ], beta_z_temp[NX][NY][NZ];
+    double gamma_tilde_temp[NX][NY][NZ][3][3], K_temp[NX][NY][NZ], A_tilde_temp[NX][NY][NZ][3][3];
+    double Lambda_tilde_x_temp[NX][NY][NZ], Lambda_tilde_y_temp[NX][NY][NZ], Lambda_tilde_z_temp[NX][NY][NZ];
+    double B_x_temp[NX][NY][NZ], B_y_temp[NX][NY][NZ], B_z_temp[NX][NY][NZ];
+
+    // Step 1: Compute k1 for all variables using the original variables
+    compute_phi_derivative(phi_k1, phi, alpha, beta_x, beta_y, beta_z, gamma_tilde, K, A_tilde, Lambda_tilde_x, Lambda_tilde_y, Lambda_tilde_z, B_x, B_y, B_z, dt);
+    compute_alpha_derivative(alpha_k1, phi, alpha, beta_x, beta_y, beta_z, gamma_tilde, K, A_tilde, Lambda_tilde_x, Lambda_tilde_y, Lambda_tilde_z, B_x, B_y, B_z, dt);
+    compute_beta_derivative(beta_x_k1, beta_y_k1, beta_z_k1, beta_x, beta_y, beta_z, gamma_tilde, K, A_tilde, Lambda_tilde_x, Lambda_tilde_y, Lambda_tilde_z, B_x, B_y, B_z, dt);
+    compute_gamma_tilde_derivative(gamma_tilde_k1, gamma_tilde, alpha, beta_x, beta_y, beta_z, K, A_tilde, Lambda_tilde_x, Lambda_tilde_y, Lambda_tilde_z, B_x, B_y, B_z, dt);
+    compute_K_derivative(K_k1, K, alpha, beta_x, beta_y, beta_z, gamma_tilde, A_tilde, Lambda_tilde_x, Lambda_tilde_y, Lambda_tilde_z, B_x, B_y, B_z, dt);
+    compute_A_tilde_derivative(A_tilde_k1, A_tilde, alpha, beta_x, beta_y, beta_z, gamma_tilde, K, Lambda_tilde_x, Lambda_tilde_y, Lambda_tilde_z, B_x, B_y, B_z, dt);
+    compute_Lambda_tilde_derivative(Lambda_tilde_x_k1, Lambda_tilde_y_k1, Lambda_tilde_z_k1, Lambda_tilde_x, Lambda_tilde_y, Lambda_tilde_z, gamma_tilde, alpha, beta_x, beta_y, beta_z, A_tilde, B_x, B_y, B_z, dt);
+    compute_B_derivative(B_x_k1, B_y_k1, B_z_k1, B_x, B_y, B_z, gamma_tilde, alpha, beta_x, beta_y, beta_z, Lambda_tilde_x, Lambda_tilde_y, Lambda_tilde_z, dt);
+
+    // Step 2: Compute k2 using k1 and the original variables
+    for (int i = 0; i < NX; i++) {
+        for (int j = 0; j < NY; j++) {
+            for (int k = 0; k < NZ; k++) {
+                phi_temp[i][j][k] = phi[i][j][k] + 0.5 * phi_k1[i][j][k];
+                alpha_temp[i][j][k] = alpha[i][j][k] + 0.5 * alpha_k1[i][j][k];
+                beta_x_temp[i][j][k] = beta_x[i][j][k] + 0.5 * beta_x_k1[i][j][k];
+                beta_y_temp[i][j][k] = beta_y[i][j][k] + 0.5 * beta_y_k1[i][j][k];
+                beta_z_temp[i][j][k] = beta_z[i][j][k] + 0.5 * beta_z_k1[i][j][k];
+                for (int l = 0; l < 3; l++) {
+                    for (int m = 0; m < 3; m++) {
+                        gamma_tilde_temp[i][j][k][l][m] = gamma_tilde[i][j][k][l][m] + 0.5 * dt * gamma_tilde_k1[i][j][k][l][m];
+                        A_tilde_temp[i][j][k][l][m] = A_tilde[i][j][k][l][m] + 0.5 * dt * A_tilde_k1[i][j][k][l][m];
+                    }
+                }
+                K_temp[i][j][k] = K[i][j][k] + 0.5 * dt * K_k1[i][j][k];
+                Lambda_tilde_x_temp[i][j][k] = Lambda_tilde_x[i][j][k] + 0.5 * dt * Lambda_tilde_x_k1[i][j][k];
+                Lambda_tilde_y_temp[i][j][k] = Lambda_tilde_y[i][j][k] + 0.5 * dt * Lambda_tilde_y_k1[i][j][k];
+                Lambda_tilde_z_temp[i][j][k] = Lambda_tilde_z[i][j][k] + 0.5 * dt * Lambda_tilde_z_k1[i][j][k];
+                B_x_temp[i][j][k] = B_x[i][j][k] + 0.5 * dt * B_x_k1[i][j][k];
+                B_y_temp[i][j][k] = B_y[i][j][k] + 0.5 * dt * B_y_k1[i][j][k];
+                B_z_temp[i][j][k] = B_z[i][j][k] + 0.5 * dt * B_z_k1[i][j][k];
+            }
+        }
+    }
+    compute_phi_derivative(phi_k2, phi_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, gamma_tilde_temp, K_temp, A_tilde_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_alpha_derivative(alpha_k2, phi_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, gamma_tilde_temp, K_temp, A_tilde_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_beta_derivative(beta_x_k2, beta_y_k2, beta_z_k2, beta_x_temp, beta_y_temp, beta_z_temp, gamma_tilde_temp, K_temp, A_tilde_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_gamma_tilde_derivative(gamma_tilde_k2, gamma_tilde_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, K_temp, A_tilde_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_K_derivative(K_k2, K_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, gamma_tilde_temp, A_tilde_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_A_tilde_derivative(A_tilde_k2, A_tilde_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, gamma_tilde_temp, K_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_Lambda_tilde_derivative(Lambda_tilde_x_k2, Lambda_tilde_y_k2, Lambda_tilde_z_k2, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, gamma_tilde_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, A_tilde_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_B_derivative(B_x_k2, B_y_k2, B_z_k2, B_x_temp, B_y_temp, B_z_temp, gamma_tilde_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, dt);
+
+    // Step 3: Compute k3 using k2 and the original variables
+    for (int i = 0; i < NX; i++) {
+        for (int j = 0; j < NY; j++) {
+            for (int k = 0; k < NZ; k++) {
+                phi_temp[i][j][k] = phi[i][j][k] + 0.5 * phi_k2[i][j][k];
+                alpha_temp[i][j][k] = alpha[i][j][k] + 0.5 * alpha_k2[i][j][k];
+                beta_x_temp[i][j][k] = beta_x[i][j][k] + 0.5 * beta_x_k2[i][j][k];
+                beta_y_temp[i][j][k] = beta_y[i][j][k] + 0.5 * beta_y_k2[i][j][k];
+                beta_z_temp[i][j][k] = beta_z[i][j][k] + 0.5 * beta_z_k2[i][j][k];
+                for (int l = 0; l < 3; l++) {
+                    for (int m = 0; m < 3; m++) {
+                        gamma_tilde_temp[i][j][k][l][m] = gamma_tilde[i][j][k][l][m] + 0.5 * dt * gamma_tilde_k2[i][j][k][l][m];
+                        A_tilde_temp[i][j][k][l][m] = A_tilde[i][j][k][l][m] + 0.5 * dt * A_tilde_k2[i][j][k][l][m];
+                    }
+                }
+                K_temp[i][j][k] = K[i][j][k] + 0.5 * dt * K_k2[i][j][k];
+                Lambda_tilde_x_temp[i][j][k] = Lambda_tilde_x[i][j][k] + 0.5 * dt * Lambda_tilde_x_k2[i][j][k];
+                Lambda_tilde_y_temp[i][j][k] = Lambda_tilde_y[i][j][k] + 0.5 * dt * Lambda_tilde_y_k2[i][j][k];
+                Lambda_tilde_z_temp[i][j][k] = Lambda_tilde_z[i][j][k] + 0.5 * dt * Lambda_tilde_z_k2[i][j][k];
+                B_x_temp[i][j][k] = B_x[i][j][k] + 0.5 * dt * B_x_k2[i][j][k];
+                B_y_temp[i][j][k] = B_y[i][j][k] + 0.5 * dt * B_y_k2[i][j][k];
+                B_z_temp[i][j][k] = B_z[i][j][k] + 0.5 * dt * B_z_k2[i][j][k];
+            }
+        }
+    }
+    compute_phi_derivative(phi_k3, phi_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, gamma_tilde_temp, K_temp, A_tilde_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_alpha_derivative(alpha_k3, phi_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, gamma_tilde_temp, K_temp, A_tilde_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_beta_derivative(beta_x_k3, beta_y_k3, beta_z_k3, beta_x_temp, beta_y_temp, beta_z_temp, gamma_tilde_temp, K_temp, A_tilde_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_gamma_tilde_derivative(gamma_tilde_k3, gamma_tilde_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, K_temp, A_tilde_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_K_derivative(K_k3, K_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, gamma_tilde_temp, A_tilde_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_A_tilde_derivative(A_tilde_k3, A_tilde_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, gamma_tilde_temp, K_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_Lambda_tilde_derivative(Lambda_tilde_x_k3, Lambda_tilde_y_k3, Lambda_tilde_z_k3, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, gamma_tilde_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, A_tilde_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_B_derivative(B_x_k3, B_y_k3, B_z_k3, B_x_temp, B_y_temp, B_z_temp, gamma_tilde_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, dt);
+
+    // Step 4: Compute k4 using k3 and the original variables
+    for (int i = 0; i < NX; i++) {
+        for (int j = 0; j < NY; j++) {
+            for (int k = 0; k < NZ; k++) {
+                phi_temp[i][j][k] = phi[i][j][k] + phi_k3[i][j][k];
+                alpha_temp[i][j][k] = alpha[i][j][k] + alpha_k3[i][j][k];
+                beta_x_temp[i][j][k] = beta_x[i][j][k] + beta_x_k3[i][j][k];
+                beta_y_temp[i][j][k] = beta_y[i][j][k] + beta_y_k3[i][j][k];
+                beta_z_temp[i][j][k] = beta_z[i][j][k] + beta_z_k3[i][j][k];
+                for (int l = 0; l < 3; l++) {
+                    for (int m = 0; m < 3; m++) {
+                        gamma_tilde_temp[i][j][k][l][m] = gamma_tilde[i][j][k][l][m] + dt * gamma_tilde_k3[i][j][k][l][m];
+                        A_tilde_temp[i][j][k][l][m] = A_tilde[i][j][k][l][m] + dt * A_tilde_k3[i][j][k][l][m];
+                    }
+                }
+                K_temp[i][j][k] = K[i][j][k] + dt * K_k3[i][j][k];
+                Lambda_tilde_x_temp[i][j][k] = Lambda_tilde_x[i][j][k] + dt * Lambda_tilde_x_k3[i][j][k];
+                Lambda_tilde_y_temp[i][j][k] = Lambda_tilde_y[i][j][k] + dt * Lambda_tilde_y_k3[i][j][k];
+                Lambda_tilde_z_temp[i][j][k] = Lambda_tilde_z[i][j][k] + dt * Lambda_tilde_z_k3[i][j][k];
+                B_x_temp[i][j][k] = B_x[i][j][k] + dt * B_x_k3[i][j][k];
+                B_y_temp[i][j][k] = B_y[i][j][k] + dt * B_y_k3[i][j][k];
+                B_z_temp[i][j][k] = B_z[i][j][k] + dt * B_z_k3[i][j][k];
+            }
+        }
+    }
+    compute_phi_derivative(phi_k4, phi_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, gamma_tilde_temp, K_temp, A_tilde_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_alpha_derivative(alpha_k4, phi_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, gamma_tilde_temp, K_temp, A_tilde_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_beta_derivative(beta_x_k4, beta_y_k4, beta_z_k4, beta_x_temp, beta_y_temp, beta_z_temp, gamma_tilde_temp, K_temp, A_tilde_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_gamma_tilde_derivative(gamma_tilde_k4, gamma_tilde_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, K_temp, A_tilde_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_K_derivative(K_k4, K_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, gamma_tilde_temp, A_tilde_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_A_tilde_derivative(A_tilde_k4, A_tilde_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, gamma_tilde_temp, K_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_Lambda_tilde_derivative(Lambda_tilde_x_k4, Lambda_tilde_y_k4, Lambda_tilde_z_k4, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, gamma_tilde_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, A_tilde_temp, B_x_temp, B_y_temp, B_z_temp, dt);
+    compute_B_derivative(B_x_k4, B_y_k4, B_z_k4, B_x_temp, B_y_temp, B_z_temp, gamma_tilde_temp, alpha_temp, beta_x_temp, beta_y_temp, beta_z_temp, Lambda_tilde_x_temp, Lambda_tilde_y_temp, Lambda_tilde_z_temp, dt);
+
+    // Final update step using all k1, k2, k3, k4
+    for (int i = 0; i < NX; i++) {
+        for (int j = 0; j < NY; j++) {
+            for (int k = 0; k < NZ; k++) {
+                phi[i][j][k] += dt / 6.0 * (phi_k1[i][j][k] + 2.0 * phi_k2[i][j][k] + 2.0 * phi_k3[i][j][k] + phi_k4[i][j][k]);
+                alpha[i][j][k] += dt / 6.0 * (alpha_k1[i][j][k] + 2.0 * alpha_k2[i][j][k] + 2.0 * alpha_k3[i][j][k] + alpha_k4[i][j][k]);
+                beta_x[i][j][k] += dt / 6.0 * (beta_x_k1[i][j][k] + 2.0 * beta_x_k2[i][j][k] + 2.0 * beta_x_k3[i][j][k] + beta_x_k4[i][j][k]);
+                beta_y[i][j][k] += dt / 6.0 * (beta_y_k1[i][j][k] + 2.0 * beta_y_k2[i][j][k] + 2.0 * beta_y_k3[i][j][k] + beta_y_k4[i][j][k]);
+                beta_z[i][j][k] += dt / 6.0 * (beta_z_k1[i][j][k] + 2.0 * beta_z_k2[i][j][k] + 2.0 * beta_z_k3[i][j][k] + beta_z_k4[i][j][k]);
+                for (int l = 0; l < 3; l++) {
+                    for (int m = 0; m < 3; m++) {
+                        gamma_tilde[i][j][k][l][m] += dt / 6.0 * (gamma_tilde_k1[i][j][k][l][m] + 2.0 * gamma_tilde_k2[i][j][k][l][m] + 2.0 * gamma_tilde_k3[i][j][k][l][m] + gamma_tilde_k4[i][j][k][l][m]);
+                        A_tilde[i][j][k][l][m] += dt / 6.0 * (A_tilde_k1[i][j][k][l][m] + 2.0 * A_tilde_k2[i][j][k][l][m] + 2.0 * A_tilde_k3[i][j][k][l][m] + A_tilde_k4[i][j][k][l][m]);
+                    }
+                }
+                K[i][j][k] += dt / 6.0 * (K_k1[i][j][k] + 2.0 * K_k2[i][j][k] + 2.0 * K_k3[i][j][k] + K_k4[i][j][k]);
+                Lambda_tilde_x[i][j][k] += dt / 6.0 * (Lambda_tilde_x_k1[i][j][k] + 2.0 * Lambda_tilde_x_k2[i][j][k] + 2.0 * Lambda_tilde_x_k3[i][j][k] + Lambda_tilde_x_k4[i][j][k]);
+                Lambda_tilde_y[i][j][k] += dt / 6.0 * (Lambda_tilde_y_k1[i][j][k] + 2.0 * Lambda_tilde_y_k2[i][j][k] + 2.0 * Lambda_tilde_y_k3[i][j][k] + Lambda_tilde_y_k4[i][j][k]);
+                Lambda_tilde_z[i][j][k] += dt / 6.0 * (Lambda_tilde_z_k1[i][j][k] + 2.0 * Lambda_tilde_z_k2[i][j][k] + 2.0 * Lambda_tilde_z_k3[i][j][k] + Lambda_tilde_z_k4[i][j][k]);
+                B_x[i][j][k] += dt / 6.0 * (B_x_k1[i][j][k] + 2.0 * B_x_k2[i][j][k] + 2.0 * B_x_k3[i][j][k] + B_x_k4[i][j][k]);
+                B_y[i][j][k] += dt / 6.0 * (B_y_k1[i][j][k] + 2.0 * B_y_k2[i][j][k] + 2.0 * B_y_k3[i][j][k] + B_y_k4[i][j][k]);
+                B_z[i][j][k] += dt / 6.0 * (B_z_k1[i][j][k] + 2.0 * B_z_k2[i][j][k] + 2.0 * B_z_k3[i][j][k] + B_z_k4[i][j][k]);
+            }
+        }
+    }
 }
+
+
+
+
 
 
