@@ -1,4 +1,4 @@
-# Install script for directory: /home/andres/Desktop/not/BSSN01/bssn_simulation
+# Install script for directory: /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/andres/Desktop/not/BSSN01/bssn_simulation/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

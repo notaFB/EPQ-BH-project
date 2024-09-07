@@ -16,8 +16,10 @@ public:
         F_K(slice, sliceOut);
         F_alpha(slice, sliceOut);
         F_beta(slice, sliceOut);
+        F_B(slice, sliceOut);
         F_gammaTilde(slice, sliceOut);
         F_ATilde(slice, sliceOut);
+        F_GammaTilde(slice, sliceOut);
 
     }
 
@@ -26,8 +28,12 @@ public:
     static void F_K(SpatialSlice& slice, SpatialSlice& sliceOut);
     static void F_alpha(SpatialSlice& slice, SpatialSlice& sliceOut);
     static void F_beta(SpatialSlice& slice, SpatialSlice& sliceOut);
+    static void F_B(SpatialSlice& slice, SpatialSlice& sliceOut);
     static void F_gammaTilde(SpatialSlice& slice, SpatialSlice& sliceOut);
     static void F_ATilde(SpatialSlice& slice, SpatialSlice& sliceOut);
+    static void F_GammaTilde(SpatialSlice& slice, SpatialSlice& sliceOut);
+
+    static void RK4_step();
 
 };
 

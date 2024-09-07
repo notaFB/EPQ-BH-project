@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/andres/Desktop/not/BSSN01/bssn_simulation
+CMAKE_SOURCE_DIR = /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/andres/Desktop/not/BSSN01/bssn_simulation/build
+CMAKE_BINARY_DIR = /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles /home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -355,6 +355,48 @@ src/fieldData.cpp.s:
 	$(MAKE) -f CMakeFiles/test_boundary_conditions.dir/build.make CMakeFiles/test_boundary_conditions.dir/src/fieldData.cpp.s
 	$(MAKE) -f CMakeFiles/bssn_simulation.dir/build.make CMakeFiles/bssn_simulation.dir/src/fieldData.cpp.s
 .PHONY : src/fieldData.cpp.s
+
+src/geometry.o: src/geometry.cpp.o
+
+.PHONY : src/geometry.o
+
+# target to build an object file
+src/geometry.cpp.o:
+	$(MAKE) -f CMakeFiles/test_initial_conditions.dir/build.make CMakeFiles/test_initial_conditions.dir/src/geometry.cpp.o
+	$(MAKE) -f CMakeFiles/test_grid.dir/build.make CMakeFiles/test_grid.dir/src/geometry.cpp.o
+	$(MAKE) -f CMakeFiles/test_fields.dir/build.make CMakeFiles/test_fields.dir/src/geometry.cpp.o
+	$(MAKE) -f CMakeFiles/test_evolution.dir/build.make CMakeFiles/test_evolution.dir/src/geometry.cpp.o
+	$(MAKE) -f CMakeFiles/test_boundary_conditions.dir/build.make CMakeFiles/test_boundary_conditions.dir/src/geometry.cpp.o
+	$(MAKE) -f CMakeFiles/bssn_simulation.dir/build.make CMakeFiles/bssn_simulation.dir/src/geometry.cpp.o
+.PHONY : src/geometry.cpp.o
+
+src/geometry.i: src/geometry.cpp.i
+
+.PHONY : src/geometry.i
+
+# target to preprocess a source file
+src/geometry.cpp.i:
+	$(MAKE) -f CMakeFiles/test_initial_conditions.dir/build.make CMakeFiles/test_initial_conditions.dir/src/geometry.cpp.i
+	$(MAKE) -f CMakeFiles/test_grid.dir/build.make CMakeFiles/test_grid.dir/src/geometry.cpp.i
+	$(MAKE) -f CMakeFiles/test_fields.dir/build.make CMakeFiles/test_fields.dir/src/geometry.cpp.i
+	$(MAKE) -f CMakeFiles/test_evolution.dir/build.make CMakeFiles/test_evolution.dir/src/geometry.cpp.i
+	$(MAKE) -f CMakeFiles/test_boundary_conditions.dir/build.make CMakeFiles/test_boundary_conditions.dir/src/geometry.cpp.i
+	$(MAKE) -f CMakeFiles/bssn_simulation.dir/build.make CMakeFiles/bssn_simulation.dir/src/geometry.cpp.i
+.PHONY : src/geometry.cpp.i
+
+src/geometry.s: src/geometry.cpp.s
+
+.PHONY : src/geometry.s
+
+# target to generate assembly for a file
+src/geometry.cpp.s:
+	$(MAKE) -f CMakeFiles/test_initial_conditions.dir/build.make CMakeFiles/test_initial_conditions.dir/src/geometry.cpp.s
+	$(MAKE) -f CMakeFiles/test_grid.dir/build.make CMakeFiles/test_grid.dir/src/geometry.cpp.s
+	$(MAKE) -f CMakeFiles/test_fields.dir/build.make CMakeFiles/test_fields.dir/src/geometry.cpp.s
+	$(MAKE) -f CMakeFiles/test_evolution.dir/build.make CMakeFiles/test_evolution.dir/src/geometry.cpp.s
+	$(MAKE) -f CMakeFiles/test_boundary_conditions.dir/build.make CMakeFiles/test_boundary_conditions.dir/src/geometry.cpp.s
+	$(MAKE) -f CMakeFiles/bssn_simulation.dir/build.make CMakeFiles/bssn_simulation.dir/src/geometry.cpp.s
+.PHONY : src/geometry.cpp.s
 
 src/grid.o: src/grid.cpp.o
 
@@ -685,6 +727,9 @@ help:
 	@echo "... src/fieldData.o"
 	@echo "... src/fieldData.i"
 	@echo "... src/fieldData.s"
+	@echo "... src/geometry.o"
+	@echo "... src/geometry.i"
+	@echo "... src/geometry.s"
 	@echo "... src/grid.o"
 	@echo "... src/grid.i"
 	@echo "... src/grid.s"

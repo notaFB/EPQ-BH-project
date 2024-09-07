@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/andres/Desktop/not/BSSN01/bssn_simulation
+CMAKE_SOURCE_DIR = /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/andres/Desktop/not/BSSN01/bssn_simulation/build
+CMAKE_BINARY_DIR = /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/bssn_simulation.dir/depend.make
@@ -59,107 +59,120 @@ include CMakeFiles/bssn_simulation.dir/flags.make
 
 CMakeFiles/bssn_simulation.dir/src/boundary_conditions.cpp.o: CMakeFiles/bssn_simulation.dir/flags.make
 CMakeFiles/bssn_simulation.dir/src/boundary_conditions.cpp.o: ../src/boundary_conditions.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/bssn_simulation.dir/src/boundary_conditions.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/bssn_simulation.dir/src/boundary_conditions.cpp.o -c /home/andres/Desktop/not/BSSN01/bssn_simulation/src/boundary_conditions.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/bssn_simulation.dir/src/boundary_conditions.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/bssn_simulation.dir/src/boundary_conditions.cpp.o -c /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/boundary_conditions.cpp
 
 CMakeFiles/bssn_simulation.dir/src/boundary_conditions.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/bssn_simulation.dir/src/boundary_conditions.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andres/Desktop/not/BSSN01/bssn_simulation/src/boundary_conditions.cpp > CMakeFiles/bssn_simulation.dir/src/boundary_conditions.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/boundary_conditions.cpp > CMakeFiles/bssn_simulation.dir/src/boundary_conditions.cpp.i
 
 CMakeFiles/bssn_simulation.dir/src/boundary_conditions.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/bssn_simulation.dir/src/boundary_conditions.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andres/Desktop/not/BSSN01/bssn_simulation/src/boundary_conditions.cpp -o CMakeFiles/bssn_simulation.dir/src/boundary_conditions.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/boundary_conditions.cpp -o CMakeFiles/bssn_simulation.dir/src/boundary_conditions.cpp.s
 
 CMakeFiles/bssn_simulation.dir/src/config.cpp.o: CMakeFiles/bssn_simulation.dir/flags.make
 CMakeFiles/bssn_simulation.dir/src/config.cpp.o: ../src/config.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/bssn_simulation.dir/src/config.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/bssn_simulation.dir/src/config.cpp.o -c /home/andres/Desktop/not/BSSN01/bssn_simulation/src/config.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/bssn_simulation.dir/src/config.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/bssn_simulation.dir/src/config.cpp.o -c /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/config.cpp
 
 CMakeFiles/bssn_simulation.dir/src/config.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/bssn_simulation.dir/src/config.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andres/Desktop/not/BSSN01/bssn_simulation/src/config.cpp > CMakeFiles/bssn_simulation.dir/src/config.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/config.cpp > CMakeFiles/bssn_simulation.dir/src/config.cpp.i
 
 CMakeFiles/bssn_simulation.dir/src/config.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/bssn_simulation.dir/src/config.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andres/Desktop/not/BSSN01/bssn_simulation/src/config.cpp -o CMakeFiles/bssn_simulation.dir/src/config.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/config.cpp -o CMakeFiles/bssn_simulation.dir/src/config.cpp.s
 
 CMakeFiles/bssn_simulation.dir/src/evolution.cpp.o: CMakeFiles/bssn_simulation.dir/flags.make
 CMakeFiles/bssn_simulation.dir/src/evolution.cpp.o: ../src/evolution.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/bssn_simulation.dir/src/evolution.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/bssn_simulation.dir/src/evolution.cpp.o -c /home/andres/Desktop/not/BSSN01/bssn_simulation/src/evolution.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/bssn_simulation.dir/src/evolution.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/bssn_simulation.dir/src/evolution.cpp.o -c /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/evolution.cpp
 
 CMakeFiles/bssn_simulation.dir/src/evolution.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/bssn_simulation.dir/src/evolution.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andres/Desktop/not/BSSN01/bssn_simulation/src/evolution.cpp > CMakeFiles/bssn_simulation.dir/src/evolution.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/evolution.cpp > CMakeFiles/bssn_simulation.dir/src/evolution.cpp.i
 
 CMakeFiles/bssn_simulation.dir/src/evolution.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/bssn_simulation.dir/src/evolution.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andres/Desktop/not/BSSN01/bssn_simulation/src/evolution.cpp -o CMakeFiles/bssn_simulation.dir/src/evolution.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/evolution.cpp -o CMakeFiles/bssn_simulation.dir/src/evolution.cpp.s
 
 CMakeFiles/bssn_simulation.dir/src/fieldData.cpp.o: CMakeFiles/bssn_simulation.dir/flags.make
 CMakeFiles/bssn_simulation.dir/src/fieldData.cpp.o: ../src/fieldData.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/bssn_simulation.dir/src/fieldData.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/bssn_simulation.dir/src/fieldData.cpp.o -c /home/andres/Desktop/not/BSSN01/bssn_simulation/src/fieldData.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/bssn_simulation.dir/src/fieldData.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/bssn_simulation.dir/src/fieldData.cpp.o -c /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/fieldData.cpp
 
 CMakeFiles/bssn_simulation.dir/src/fieldData.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/bssn_simulation.dir/src/fieldData.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andres/Desktop/not/BSSN01/bssn_simulation/src/fieldData.cpp > CMakeFiles/bssn_simulation.dir/src/fieldData.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/fieldData.cpp > CMakeFiles/bssn_simulation.dir/src/fieldData.cpp.i
 
 CMakeFiles/bssn_simulation.dir/src/fieldData.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/bssn_simulation.dir/src/fieldData.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andres/Desktop/not/BSSN01/bssn_simulation/src/fieldData.cpp -o CMakeFiles/bssn_simulation.dir/src/fieldData.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/fieldData.cpp -o CMakeFiles/bssn_simulation.dir/src/fieldData.cpp.s
+
+CMakeFiles/bssn_simulation.dir/src/geometry.cpp.o: CMakeFiles/bssn_simulation.dir/flags.make
+CMakeFiles/bssn_simulation.dir/src/geometry.cpp.o: ../src/geometry.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/bssn_simulation.dir/src/geometry.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/bssn_simulation.dir/src/geometry.cpp.o -c /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/geometry.cpp
+
+CMakeFiles/bssn_simulation.dir/src/geometry.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/bssn_simulation.dir/src/geometry.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/geometry.cpp > CMakeFiles/bssn_simulation.dir/src/geometry.cpp.i
+
+CMakeFiles/bssn_simulation.dir/src/geometry.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/bssn_simulation.dir/src/geometry.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/geometry.cpp -o CMakeFiles/bssn_simulation.dir/src/geometry.cpp.s
 
 CMakeFiles/bssn_simulation.dir/src/grid.cpp.o: CMakeFiles/bssn_simulation.dir/flags.make
 CMakeFiles/bssn_simulation.dir/src/grid.cpp.o: ../src/grid.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/bssn_simulation.dir/src/grid.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/bssn_simulation.dir/src/grid.cpp.o -c /home/andres/Desktop/not/BSSN01/bssn_simulation/src/grid.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/bssn_simulation.dir/src/grid.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/bssn_simulation.dir/src/grid.cpp.o -c /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/grid.cpp
 
 CMakeFiles/bssn_simulation.dir/src/grid.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/bssn_simulation.dir/src/grid.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andres/Desktop/not/BSSN01/bssn_simulation/src/grid.cpp > CMakeFiles/bssn_simulation.dir/src/grid.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/grid.cpp > CMakeFiles/bssn_simulation.dir/src/grid.cpp.i
 
 CMakeFiles/bssn_simulation.dir/src/grid.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/bssn_simulation.dir/src/grid.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andres/Desktop/not/BSSN01/bssn_simulation/src/grid.cpp -o CMakeFiles/bssn_simulation.dir/src/grid.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/grid.cpp -o CMakeFiles/bssn_simulation.dir/src/grid.cpp.s
 
 CMakeFiles/bssn_simulation.dir/src/initial_conditions.cpp.o: CMakeFiles/bssn_simulation.dir/flags.make
 CMakeFiles/bssn_simulation.dir/src/initial_conditions.cpp.o: ../src/initial_conditions.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/bssn_simulation.dir/src/initial_conditions.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/bssn_simulation.dir/src/initial_conditions.cpp.o -c /home/andres/Desktop/not/BSSN01/bssn_simulation/src/initial_conditions.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/bssn_simulation.dir/src/initial_conditions.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/bssn_simulation.dir/src/initial_conditions.cpp.o -c /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/initial_conditions.cpp
 
 CMakeFiles/bssn_simulation.dir/src/initial_conditions.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/bssn_simulation.dir/src/initial_conditions.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andres/Desktop/not/BSSN01/bssn_simulation/src/initial_conditions.cpp > CMakeFiles/bssn_simulation.dir/src/initial_conditions.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/initial_conditions.cpp > CMakeFiles/bssn_simulation.dir/src/initial_conditions.cpp.i
 
 CMakeFiles/bssn_simulation.dir/src/initial_conditions.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/bssn_simulation.dir/src/initial_conditions.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andres/Desktop/not/BSSN01/bssn_simulation/src/initial_conditions.cpp -o CMakeFiles/bssn_simulation.dir/src/initial_conditions.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/initial_conditions.cpp -o CMakeFiles/bssn_simulation.dir/src/initial_conditions.cpp.s
 
 CMakeFiles/bssn_simulation.dir/src/main.cpp.o: CMakeFiles/bssn_simulation.dir/flags.make
 CMakeFiles/bssn_simulation.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/bssn_simulation.dir/src/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/bssn_simulation.dir/src/main.cpp.o -c /home/andres/Desktop/not/BSSN01/bssn_simulation/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/bssn_simulation.dir/src/main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/bssn_simulation.dir/src/main.cpp.o -c /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/main.cpp
 
 CMakeFiles/bssn_simulation.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/bssn_simulation.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andres/Desktop/not/BSSN01/bssn_simulation/src/main.cpp > CMakeFiles/bssn_simulation.dir/src/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/main.cpp > CMakeFiles/bssn_simulation.dir/src/main.cpp.i
 
 CMakeFiles/bssn_simulation.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/bssn_simulation.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andres/Desktop/not/BSSN01/bssn_simulation/src/main.cpp -o CMakeFiles/bssn_simulation.dir/src/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/main.cpp -o CMakeFiles/bssn_simulation.dir/src/main.cpp.s
 
 CMakeFiles/bssn_simulation.dir/src/utilities.cpp.o: CMakeFiles/bssn_simulation.dir/flags.make
 CMakeFiles/bssn_simulation.dir/src/utilities.cpp.o: ../src/utilities.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/bssn_simulation.dir/src/utilities.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/bssn_simulation.dir/src/utilities.cpp.o -c /home/andres/Desktop/not/BSSN01/bssn_simulation/src/utilities.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/bssn_simulation.dir/src/utilities.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/bssn_simulation.dir/src/utilities.cpp.o -c /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/utilities.cpp
 
 CMakeFiles/bssn_simulation.dir/src/utilities.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/bssn_simulation.dir/src/utilities.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andres/Desktop/not/BSSN01/bssn_simulation/src/utilities.cpp > CMakeFiles/bssn_simulation.dir/src/utilities.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/utilities.cpp > CMakeFiles/bssn_simulation.dir/src/utilities.cpp.i
 
 CMakeFiles/bssn_simulation.dir/src/utilities.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/bssn_simulation.dir/src/utilities.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andres/Desktop/not/BSSN01/bssn_simulation/src/utilities.cpp -o CMakeFiles/bssn_simulation.dir/src/utilities.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/utilities.cpp -o CMakeFiles/bssn_simulation.dir/src/utilities.cpp.s
 
 # Object files for target bssn_simulation
 bssn_simulation_OBJECTS = \
@@ -167,6 +180,7 @@ bssn_simulation_OBJECTS = \
 "CMakeFiles/bssn_simulation.dir/src/config.cpp.o" \
 "CMakeFiles/bssn_simulation.dir/src/evolution.cpp.o" \
 "CMakeFiles/bssn_simulation.dir/src/fieldData.cpp.o" \
+"CMakeFiles/bssn_simulation.dir/src/geometry.cpp.o" \
 "CMakeFiles/bssn_simulation.dir/src/grid.cpp.o" \
 "CMakeFiles/bssn_simulation.dir/src/initial_conditions.cpp.o" \
 "CMakeFiles/bssn_simulation.dir/src/main.cpp.o" \
@@ -179,13 +193,14 @@ bin/bssn_simulation: CMakeFiles/bssn_simulation.dir/src/boundary_conditions.cpp.
 bin/bssn_simulation: CMakeFiles/bssn_simulation.dir/src/config.cpp.o
 bin/bssn_simulation: CMakeFiles/bssn_simulation.dir/src/evolution.cpp.o
 bin/bssn_simulation: CMakeFiles/bssn_simulation.dir/src/fieldData.cpp.o
+bin/bssn_simulation: CMakeFiles/bssn_simulation.dir/src/geometry.cpp.o
 bin/bssn_simulation: CMakeFiles/bssn_simulation.dir/src/grid.cpp.o
 bin/bssn_simulation: CMakeFiles/bssn_simulation.dir/src/initial_conditions.cpp.o
 bin/bssn_simulation: CMakeFiles/bssn_simulation.dir/src/main.cpp.o
 bin/bssn_simulation: CMakeFiles/bssn_simulation.dir/src/utilities.cpp.o
 bin/bssn_simulation: CMakeFiles/bssn_simulation.dir/build.make
 bin/bssn_simulation: CMakeFiles/bssn_simulation.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable bin/bssn_simulation"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable bin/bssn_simulation"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/bssn_simulation.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -198,6 +213,6 @@ CMakeFiles/bssn_simulation.dir/clean:
 .PHONY : CMakeFiles/bssn_simulation.dir/clean
 
 CMakeFiles/bssn_simulation.dir/depend:
-	cd /home/andres/Desktop/not/BSSN01/bssn_simulation/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/andres/Desktop/not/BSSN01/bssn_simulation /home/andres/Desktop/not/BSSN01/bssn_simulation /home/andres/Desktop/not/BSSN01/bssn_simulation/build /home/andres/Desktop/not/BSSN01/bssn_simulation/build /home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles/bssn_simulation.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles/bssn_simulation.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/bssn_simulation.dir/depend
 

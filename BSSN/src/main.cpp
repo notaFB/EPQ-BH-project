@@ -48,10 +48,10 @@ int main() {
     std::cout << "Total memory increase: " << (memoryAfter - memoryBefore) / (1024.0 * 1024.0 * 1024.0) << " GB" << std::endl;
 
     //Now test Evolution::F_K, measure time
-    SpatialSlice& slice = fieldData.getCurrentSlice();
-    SpatialSlice& sliceOut = fieldData.getFutureSlice();
+    SpatialSlice& slice = fieldData.getV1Slice();
+    SpatialSlice& sliceOut = fieldData.getV2Slice();
     auto start = std::chrono::high_resolution_clock::now();
-    Evolution::F_K(slice, sliceOut);
+    Evolution::RK4_step();
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
     std::cout << "Elapsed time for Evolution::F_K: " << elapsed.count() << " s" << std::endl;

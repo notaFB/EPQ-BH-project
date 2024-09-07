@@ -3,6 +3,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/test_grid.dir/src/config.cpp.o"
   "CMakeFiles/test_grid.dir/src/evolution.cpp.o"
   "CMakeFiles/test_grid.dir/src/fieldData.cpp.o"
+  "CMakeFiles/test_grid.dir/src/geometry.cpp.o"
   "CMakeFiles/test_grid.dir/src/grid.cpp.o"
   "CMakeFiles/test_grid.dir/src/initial_conditions.cpp.o"
   "CMakeFiles/test_grid.dir/src/main.cpp.o"

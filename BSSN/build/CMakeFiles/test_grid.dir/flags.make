@@ -6,5 +6,5 @@ CXX_FLAGS =  -O2 -fPIC -Wall -Wextra -Wpedantic -Wno-unknown-pragmas -march=nati
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/andres/Desktop/not/BSSN01/bssn_simulation/include -I/home/andres/Desktop/not/BSSN01/bssn_simulation/src 
+CXX_INCLUDES = -I/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/include -I/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src 
 

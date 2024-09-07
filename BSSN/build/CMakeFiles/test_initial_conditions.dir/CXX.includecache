@@ -6,55 +6,45 @@
 
 #IncludeRegexTransform: 
 
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/boundary_conditions.hpp
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/boundary_conditions.hpp
 
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/config.hpp
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/config.hpp
 
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/evolution.cpp
-evolution.hpp
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/evolution.hpp
-utilities.hpp
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/utilities.hpp
-
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/evolution.hpp
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/evolution.hpp
 fieldData.hpp
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/fieldData.hpp
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/fieldData.hpp
 
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/fieldData.cpp
-fieldData.hpp
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/fieldData.hpp
-
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/fieldData.hpp
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/fieldData.hpp
 fieldTypes.hpp
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/fieldTypes.hpp
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/fieldTypes.hpp
 
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/fieldTypes.hpp
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/fieldTypes.hpp
 vector
 -
 array
 -
 
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/grid.hpp
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/grid.hpp
 
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/initial_conditions.hpp
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/initial_conditions.hpp
 
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/main.cpp
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/main.cpp
 iostream
 -
 grid.hpp
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/grid.hpp
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/grid.hpp
 fieldData.hpp
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/fieldData.hpp
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/fieldData.hpp
 initial_conditions.hpp
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/initial_conditions.hpp
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/initial_conditions.hpp
 evolution.hpp
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/evolution.hpp
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/evolution.hpp
 boundary_conditions.hpp
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/boundary_conditions.hpp
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/boundary_conditions.hpp
 utilities.hpp
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/utilities.hpp
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/utilities.hpp
 config.hpp
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/config.hpp
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/config.hpp
 iostream
 -
 chrono
@@ -68,5 +58,5 @@ string
 sstream
 -
 
-/home/andres/Desktop/not/BSSN01/bssn_simulation/src/utilities.hpp
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/utilities.hpp
 

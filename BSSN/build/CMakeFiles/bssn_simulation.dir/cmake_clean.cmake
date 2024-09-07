@@ -3,6 +3,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/bssn_simulation.dir/src/config.cpp.o"
   "CMakeFiles/bssn_simulation.dir/src/evolution.cpp.o"
   "CMakeFiles/bssn_simulation.dir/src/fieldData.cpp.o"
+  "CMakeFiles/bssn_simulation.dir/src/geometry.cpp.o"
   "CMakeFiles/bssn_simulation.dir/src/grid.cpp.o"
   "CMakeFiles/bssn_simulation.dir/src/initial_conditions.cpp.o"
   "CMakeFiles/bssn_simulation.dir/src/main.cpp.o"

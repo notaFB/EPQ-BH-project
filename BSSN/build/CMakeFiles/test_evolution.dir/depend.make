@@ -9,11 +9,17 @@ CMakeFiles/test_evolution.dir/src/evolution.cpp.o: ../src/evolution.cpp
 CMakeFiles/test_evolution.dir/src/evolution.cpp.o: ../src/evolution.hpp
 CMakeFiles/test_evolution.dir/src/evolution.cpp.o: ../src/fieldData.hpp
 CMakeFiles/test_evolution.dir/src/evolution.cpp.o: ../src/fieldTypes.hpp
+CMakeFiles/test_evolution.dir/src/evolution.cpp.o: ../src/geometry.hpp
 CMakeFiles/test_evolution.dir/src/evolution.cpp.o: ../src/utilities.hpp
 
 CMakeFiles/test_evolution.dir/src/fieldData.cpp.o: ../src/fieldData.cpp
 CMakeFiles/test_evolution.dir/src/fieldData.cpp.o: ../src/fieldData.hpp
 CMakeFiles/test_evolution.dir/src/fieldData.cpp.o: ../src/fieldTypes.hpp
+
+CMakeFiles/test_evolution.dir/src/geometry.cpp.o: ../src/fieldTypes.hpp
+CMakeFiles/test_evolution.dir/src/geometry.cpp.o: ../src/geometry.cpp
+CMakeFiles/test_evolution.dir/src/geometry.cpp.o: ../src/geometry.hpp
+CMakeFiles/test_evolution.dir/src/geometry.cpp.o: ../src/utilities.hpp
 
 CMakeFiles/test_evolution.dir/src/grid.cpp.o: ../src/grid.cpp
 

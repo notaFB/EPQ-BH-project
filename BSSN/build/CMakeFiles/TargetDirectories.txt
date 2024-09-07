@@ -1,8 +1,8 @@
-/home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles/edit_cache.dir
-/home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles/test_initial_conditions.dir
-/home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles/rebuild_cache.dir
-/home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles/test_grid.dir
-/home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles/test_fields.dir
-/home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles/test_evolution.dir
-/home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles/test_boundary_conditions.dir
-/home/andres/Desktop/not/BSSN01/bssn_simulation/build/CMakeFiles/bssn_simulation.dir
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles/edit_cache.dir
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles/test_initial_conditions.dir
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles/rebuild_cache.dir
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles/test_grid.dir
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles/test_fields.dir
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles/test_evolution.dir
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles/test_boundary_conditions.dir
+/home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/build/CMakeFiles/bssn_simulation.dir
