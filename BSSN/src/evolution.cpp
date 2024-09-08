@@ -80,7 +80,7 @@ void Evolution::RK4_step()
 }
 
 void Evolution::F_phi(SpatialSlice& slice, SpatialSlice& sliceOut) {
-    // dphi/dt = -alpha*K/6
+    // dphi/dt = -alpha*K/6 + beta^i \partial_i phi + 1/6 \partial_i beta^i
 
     ScalarField& phi_out = sliceOut.phi;
 
@@ -92,6 +92,12 @@ void Evolution::F_phi(SpatialSlice& slice, SpatialSlice& sliceOut) {
         for (int ny = 0; ny < N; ny++) {
             for (int nz = 0; nz < N; nz++) {
                 phi_out(nx, ny, nz) = -alpha(nx, ny, nz) * K(nx, ny, nz) / 6.0;
+
+                for(int i = 0; i < 3; i++) {
+                    phi_out(nx, ny, nz) += slice.beta(nx, ny, nz, i) * PARTIAL_SCALAR(slice.phi, i);
+
+                    phi_out(nx, ny, nz) += 1.0 / 6.0 * PARTIAL_VECTOR(slice.beta, i, i);
+                }
             }
         }
     }
@@ -100,7 +106,7 @@ void Evolution::F_phi(SpatialSlice& slice, SpatialSlice& sliceOut) {
 }
 
 void Evolution::F_K(SpatialSlice& slice, SpatialSlice& sliceOut) {
-    // \partial_t K = -\gamma^{ij} \left( \partial_j \partial_i \alpha - \Gamma^k_{ji} \partial_k \alpha \right) + \alpha \left( \tilde{A}_{ij} \tilde{A}^{ij} + \frac{1}{3} K^2 \right)
+    // \partial_t K = -\gamma^{ij} \left( \partial_j \partial_i \alpha - \Gamma^k_{ji} \partial_k \alpha \right) + \alpha \left( \tilde{A}_{ij} \tilde{A}^{ij} + \frac{1}{3} K^2 \right) + \beta^k \partial_k K
 
     ScalarField& K_out = sliceOut.K;
 
@@ -133,6 +139,11 @@ void Evolution::F_K(SpatialSlice& slice, SpatialSlice& sliceOut) {
                     }
                 }
 
+                //Third term: \beta^k \partial_k K
+                for(int k = 0; k < 3; k++) {
+                    K_out(nx, ny, nz) += slice.beta(nx, ny, nz, k) * PARTIAL_SCALAR(K, k);
+                }
+
             }
         }
     }
@@ -141,7 +152,7 @@ void Evolution::F_K(SpatialSlice& slice, SpatialSlice& sliceOut) {
 }
 
 void Evolution::F_gammaTilde(SpatialSlice& slice, SpatialSlice& sliceOut) {
-    // \partial_t \tilde{\gamma}_{ij} = -2 \alpha \tilde{A}_{ij}
+    // \partial_t \tilde{\gamma}_{ij} = -2 \alpha \tilde{A}_{ij} + \beta^k \partial_k \tilde \gamma_ij + \tilde\gamma_ik \partial_j \beta^k + \tilde \gamma_kj \partial_i \beta^k - 2/3 \tilde\gamma_ij \partial_k \beta^k
 
     TensorField& gammaTilde_out = sliceOut.gammaTilde;
 
@@ -155,6 +166,23 @@ void Evolution::F_gammaTilde(SpatialSlice& slice, SpatialSlice& sliceOut) {
                 for(int i = 0; i < 3; i++) {
                     for(int j = 0; j < 3; j++) {
                         gammaTilde_out(nx, ny, nz, i, j) = -2.0 * alpha(nx, ny, nz) * ATilde(nx, ny, nz, i, j);
+
+
+                        for(int k = 0; k < 3; k++) {
+                            gammaTilde_out(nx, ny, nz, i, j) += slice.beta(nx, ny, nz, k) * PARTIAL_TENSOR(slice.gammaTilde, k, i, j);
+                        }
+
+                        for(int k = 0; k < 3; k++) {
+                            gammaTilde_out(nx, ny, nz, i, j) += slice.gammaTilde(nx, ny, nz, i, k) * PARTIAL_VECTOR(slice.beta, j, k);
+                        }
+
+                        for(int k = 0; k < 3; k++) {
+                            gammaTilde_out(nx, ny, nz, i, j) += slice.gammaTilde(nx, ny, nz, k, j) * PARTIAL_VECTOR(slice.beta, i, k);
+                        }
+
+                        for(int k = 0; k < 3; k++) {
+                            gammaTilde_out(nx, ny, nz, i, j) -= 2.0/3.0 * slice.gammaTilde(nx, ny, nz, i, j) * PARTIAL_VECTOR(slice.beta, k, k);
+                        }
                     }
                 }
 
@@ -226,6 +254,7 @@ void Evolution::F_B(SpatialSlice& slice, SpatialSlice& sliceOut) {
 
 void Evolution::F_ATilde(SpatialSlice& slice, SpatialSlice& sliceOut) {
     // \partial_t \tilde{A}_{ij} = exp(-4\phi) ( -\partial_j \partial_i \alpha - \Gamma^k_{ji} \partial_k \alpha + \alpha R_ij )^TF + \alpha( K A tilde_ij - 2 A tilde_ik A tilde_lj gamma^kl )
+    // + \beta^k \partial_k \tilde A_ij + \tilde A_ik \partial_j \beta^k + \tilde A_kj \partial_i \beta^k - 2/3 \tilde A_ij \partial_k \beta^k
 
     TensorField& ATilde_out = sliceOut.ATilde;
 
@@ -277,6 +306,42 @@ void Evolution::F_ATilde(SpatialSlice& slice, SpatialSlice& sliceOut) {
                             for(int l = 0; l < 3; l++) {
                                 ATilde_out(nx, ny, nz, i, j) -= 2.0 * alpha(nx, ny, nz) * ATilde(nx, ny, nz, i, k) * ATilde(nx, ny, nz, l, j) * gammaTildeInv(nx, ny, nz, k, l);
                             }
+                        }
+                    }
+                }
+
+                //Thid term: \beta^k \partial_k \tilde A_ij
+                for(int i = 0; i < 3; i++) {
+                    for(int j = 0; j < 3; j++) {
+                        for(int k = 0; k < 3; k++) {
+                            ATilde_out(nx, ny, nz, i, j) += slice.beta(nx, ny, nz, k) * PARTIAL_TENSOR(slice.ATilde, k, i, j);
+                        }
+                    }
+                }
+
+                //Fourth term: \tilde A_ik \partial_j \beta^k
+                for(int i = 0; i < 3; i++) {
+                    for(int j = 0; j < 3; j++) {
+                        for(int k = 0; k < 3; k++) {
+                            ATilde_out(nx, ny, nz, i, j) += ATilde(nx, ny, nz, i, k) * PARTIAL_VECTOR(slice.beta, j, k);
+                        }
+                    }
+                }
+
+                //Fifth term: \tilde A_kj \partial_i \beta^k
+                for(int i = 0; i < 3; i++) {
+                    for(int j = 0; j < 3; j++) {
+                        for(int k = 0; k < 3; k++) {
+                            ATilde_out(nx, ny, nz, i, j) += ATilde(nx, ny, nz, k, j) * PARTIAL_VECTOR(slice.beta, i, k);
+                        }
+                    }
+                }
+
+                //Sixth term: -2/3 \tilde A_ij \partial_k \beta^k
+                for(int i = 0; i < 3; i++) {
+                    for(int j = 0; j < 3; j++) {
+                        for(int k = 0; k < 3; k++) {
+                            ATilde_out(nx, ny, nz, i, j) -= 2.0/3.0 * ATilde(nx, ny, nz, i, j) * PARTIAL_VECTOR(slice.beta, k, k);
                         }
                     }
                 }

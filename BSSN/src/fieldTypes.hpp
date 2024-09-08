@@ -14,7 +14,7 @@
 #define DY 0.1
 #define DZ 0.1
 
-#define DT 0.001 // Time step
+#define DT 0.01 // Time step
 
 #define eta 1.0 // Damping parameter,  ~ M
 

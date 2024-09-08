@@ -65,7 +65,7 @@ int main() {
     }
 
 
-    for(int i=0;i<50;i++) {
+    for(int i=0;i<9;i++) {
         Evolution::RK4_step();
         std::cout << "Step " << i << std::endl;
         //print phi(0,0,0) to check if its not nan
