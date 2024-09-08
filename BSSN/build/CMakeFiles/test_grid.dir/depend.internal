@@ -24,7 +24,10 @@ CMakeFiles/test_grid.dir/src/geometry.cpp.o
 CMakeFiles/test_grid.dir/src/grid.cpp.o
  /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/grid.cpp
 CMakeFiles/test_grid.dir/src/initial_conditions.cpp.o
+ /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/fieldData.hpp
+ /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/fieldTypes.hpp
  /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/initial_conditions.cpp
+ /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/initial_conditions.hpp
 CMakeFiles/test_grid.dir/src/main.cpp.o
  /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/boundary_conditions.hpp
  /home/andres/Desktop/not/NOT_A/EPQ-BH-project/BSSN/src/config.hpp

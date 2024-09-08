@@ -3,95 +3,79 @@
 #include "utilities.hpp"
 #include "geometry.hpp"
 #include <cmath>
+#include<iostream>
 
 void Evolution::RK4_step()
 {
 
-    //Apply this (getting the data from FieldData):
-    /*
-        # Initial condition: v1 contains the state vector s
-
-        # Step 1: Compute k1 and store it in v2
-        v2 = f(v1)           # v2 = f(s) (k1 = f(s))
-
-        # Step 2: Compute k2 using a temporary update to v3, store the result in v3
-        v3 = v1              # Copy v1 (s) into v3 to preserve original v1
-        v2 *= 0.5            # Scale k1 by 0.5 (v2 = 0.5 * k1)
-        v3 += v2             # v3 = s + 0.5 * k1
-        v2 = f(v3)           # v2 = f(s + 0.5 * k1) (k2)
-
-        # Step 3: Compute k3 using another temporary update to v4, store the result in v4
-        v4 = v1              # Copy v1 (s) into v4 to preserve original v1
-        v2 *= 0.5            # Scale k2 by 0.5 (v2 = 0.5 * k2)
-        v4 += v2             # v4 = s + 0.5 * k2
-        v2 = f(v4)           # v2 = f(s + 0.5 * k2) (k3)
-
-        # Step 4: Compute k4 using v3 (reused), store the result in v3
-        v3 = v1              # Copy v1 (s) into v3 again
-        v2 *= 1.0            # Scale k3 by 1.0 (v2 = k3)
-        v3 += v2             # v3 = s + k3
-        v2 = f(v3)           # v2 = f(s + k3) (k4)
-
-        # Step 5: Final combination of k1, k2, k3, k4 to update v1
-        v3 = v1              # Copy v1 (s) into v3 for final updates
-        v2 = v2              # v2 is already k4, keep it unchanged
-        v3 += v2             # v3 += k4
-        v2 = v2              # Copy k1 (stored earlier in v2) again for the combination
-        v2 += v2             # Scale k1 by 2 and add it
-        v4
-
-    */
+    
 
     //Get the data from FieldData
     FieldData& fieldData = FieldData::getInstance();
     SpatialSlice& v1 = fieldData.getV1Slice(); // v1 stores the current state vector s
-    SpatialSlice& v2 = fieldData.getV2Slice(); // v2 will be used for k1, k2, k3, k4
-    SpatialSlice& v3 = fieldData.getV3Slice(); // v3 will be used as temporary storage
-    SpatialSlice& v4 = fieldData.getV4Slice(); // v4 will be used as temporary storage
+    SpatialSlice& k1 = fieldData.getk1Slice(); // k1 stores the first derivative of s
+    SpatialSlice& k2 = fieldData.getk2Slice(); // k2 stores the second derivative of s
+    SpatialSlice& k3 = fieldData.getk3Slice(); // k3 stores the third derivative of s
+    SpatialSlice& k4 = fieldData.getk4Slice(); // k4 stores the fourth derivative of s
+    SpatialSlice& aux = fieldData.getAuxSlice(); // aux is used as a temporary storage
 
     double halfStep = 0.5;
     double fullStep = 1.0;
 
-    // Step 1: Compute k1 and store it in v2
-    F(v1, v2);  // v2 = f(v1), which is k1
-    Geometry::compute(v2);
+    Geometry::computeGeometry(v1);
+    //cout 0,0,0 value of phi
+    //std::cout << "phi(0,0,0) = " << v1.phi(0,0,0) << std::endl;
+    //std::cout << "alpha(0,0,0) = " << v1.alpha(0,0,0) << std::endl;
 
-    // Step 2: Compute k2 using v3 as temporary storage
-    v3 = v1;    // Copy v1 to v3
-    v2 *= halfStep; // Scale k1 by 0.5 (v2 = 0.5 * k1)
-    v3 += v2;  // v3 = s + 0.5 * k1
-    F(v3, v2); // v2 = f(s + 0.5 * k1), which is k2
-    Geometry::compute(v2);
+    //First step: k1 = F(v1)
+    Evolution::F(v1, k1);
+    Geometry::computeGeometry(k1);
+    //cout 0,0,0 value of phi
+    //std::cout << "k1 phi(0,0,0) = " << k1.phi(0,0,0) << std::endl;
+    //std::cout << "k1 alpha(0,0,0) = " << k1.alpha(0,0,0) << std::endl;
 
-    // Step 3: Compute k3 using v4 as temporary storage
-    v4 = v1;    // Copy v1 to v4
-    v2 *= halfStep; // Scale k2 by 0.5 (v2 = 0.5 * k2)
-    v4 += v2;  // v4 = s + 0.5 * k2
-    F(v4, v2); // v2 = f(s + 0.5 * k2), which is k3
-    Geometry::compute(v2);
+    //Second step: k2 = F(v1 + 0.5*dt*k1). Use aux as a temporary storage
+    aux = k1;
+    //std::cout << "aux phi(0,0,0) = " << aux.phi(0,0,0) << std::endl;
+    //std::cout << "aux alpha(0,0,0) = " << aux.alpha(0,0,0) << std::endl;
+    aux *= halfStep * DT;
+    aux += v1;
+    Geometry::computeGeometry(aux);
+    //std::cout << "aux' phi(0,0,0) = " << aux.phi(0,0,0) << std::endl;
+    //std::cout << "aux' alpha(0,0,0) = " << aux.alpha(0,0,0) << std::endl;
+    Evolution::F(aux, k2);
+    Geometry::computeGeometry(k2);
+    //std::cout << "k2 phi(0,0,0) = " << k2.phi(0,0,0) << std::endl;
+    //std::cout << "k2 alpha(0,0,0) = " << k2.alpha(0,0,0) << std::endl;
 
-    // Step 4: Compute k4 using v3 (reused)
-    v3 = v1;    // Copy v1 to v3
-    v2 *= fullStep; // Scale k3 by 1.0 (v2 = k3)
-    v3 += v2;  // v3 = s + k3
-    F(v3, v2); // v2 = f(s + k3), which is k4
-    Geometry::compute(v2);
+    //Third step: k3 = F(v1 + 0.5*dt*k2)
+    aux = k2;
+    aux *= halfStep * DT;
+    aux += v1;
+    Geometry::computeGeometry(aux);
+    Evolution::F(aux, k3);
+    Geometry::computeGeometry(k3);
+    //std::cout << "k3 phi(0,0,0) = " << k3.phi(0,0,0) << std::endl;
 
-    // Step 5: Final combination of k1, k2, k3, k4 to update v1
-    v3 = v2;    // v3 = k4 (copy k4 from v2)
-    v3 *= fullStep; // No scaling needed for k4, keep it as is
+    //Fourth step: k4 = F(v1 + dt*k3)
+    aux = k3;
+    aux *= fullStep * DT;
+    aux += v1;
+    Geometry::computeGeometry(aux);
+    Evolution::F(aux, k4);
+    Geometry::computeGeometry(k4);
+    //std::cout << "k4 phi(0,0,0) = " << k4.phi(0,0,0) << std::endl;
 
-    // Now, use v4 to compute the final sum
-    v4 = v1;    // Start with v1 (the original state)
-    v2 = fieldData.getV2Slice(); // Get k1 again
-    v2 *= 2.0;  // Scale k1 by 2.0
-    v4 += v2;  // Add 2 * k1 to v4
+    //Now update v1. v1 = v1 + dt/6 * (k1 + 2*k2 + 2*k3 + k4)
+    k1 *= DT / 6.0;
+    k2 *= 2.0 * DT / 6.0;
+    k3 *= 2.0 * DT / 6.0;
+    k4 *= DT / 6.0;
 
-    v3 += v4;  // Add k4 to v3 (final result)
-
-    v1 = v3;   // Update v1 with the final result of the RK4 step
-
-    // REVISE THIS
+    v1 += k1;
+    v1 += k2;
+    v1 += k3;
+    v1 += k4;
 
 }
 
@@ -330,7 +314,7 @@ void Evolution::F_GammaTilde(SpatialSlice& slice, SpatialSlice& sliceOut) {
                 for(int i = 0; i < 3; i++) {
                     for(int j = 0; j < 3; j++) {
                         for(int l = 0; l < 3; l++) {
-                            GammaTilde_out(nx, ny, nz, i) += gammaInv(nx, ny, nz, l, j) * SECOND_PARTIAL_VECTOR(slice.beta, i, j, l);
+                            GammaTilde_out(nx, ny, nz, i) += gammaInv(nx, ny, nz, l, j) * SECOND_PARTIAL_VECTOR(slice.beta, j, l, i);
                         }
                     }
                 }

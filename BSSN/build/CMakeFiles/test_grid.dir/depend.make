@@ -23,7 +23,10 @@ CMakeFiles/test_grid.dir/src/geometry.cpp.o: ../src/utilities.hpp
 
 CMakeFiles/test_grid.dir/src/grid.cpp.o: ../src/grid.cpp
 
+CMakeFiles/test_grid.dir/src/initial_conditions.cpp.o: ../src/fieldData.hpp
+CMakeFiles/test_grid.dir/src/initial_conditions.cpp.o: ../src/fieldTypes.hpp
 CMakeFiles/test_grid.dir/src/initial_conditions.cpp.o: ../src/initial_conditions.cpp
+CMakeFiles/test_grid.dir/src/initial_conditions.cpp.o: ../src/initial_conditions.hpp
 
 CMakeFiles/test_grid.dir/src/main.cpp.o: ../src/boundary_conditions.hpp
 CMakeFiles/test_grid.dir/src/main.cpp.o: ../src/config.hpp

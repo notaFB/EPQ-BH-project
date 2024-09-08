@@ -8,22 +8,30 @@ FieldData& FieldData::getInstance() {
 
 // Constructor for FieldData, initializes slices
 FieldData::FieldData()
-    : v1(), v2(), v3(), v4() {}
+    : v1(), k1(), k2(), k3(), k4(), aux() {}
 
 // Accessors for each slice
 SpatialSlice& FieldData::getV1Slice() {
     return v1;
 }
 
-SpatialSlice& FieldData::getV2Slice() {
-    return v2;
+SpatialSlice& FieldData::getk1Slice() {
+    return k1;
 }
 
-SpatialSlice& FieldData::getV3Slice() {
-    return v3;
+SpatialSlice& FieldData::getk2Slice() {
+    return k2;
 }
 
-SpatialSlice& FieldData::getV4Slice() {
-    return v4;
+SpatialSlice& FieldData::getk3Slice() {
+    return k3;
+}
+
+SpatialSlice& FieldData::getk4Slice() {
+    return k4;
+}
+
+SpatialSlice& FieldData::getAuxSlice() {
+    return aux;
 }
 

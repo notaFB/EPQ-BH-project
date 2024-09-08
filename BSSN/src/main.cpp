@@ -47,15 +47,43 @@ int main() {
     //Now in GB
     std::cout << "Total memory increase: " << (memoryAfter - memoryBefore) / (1024.0 * 1024.0 * 1024.0) << " GB" << std::endl;
 
+    //return 0;
     //Now test Evolution::F_K, measure time
     SpatialSlice& slice = fieldData.getV1Slice();
-    SpatialSlice& sliceOut = fieldData.getV2Slice();
     auto start = std::chrono::high_resolution_clock::now();
-    Evolution::RK4_step();
+
+    InitialConditions::setInitialConditions(slice);
+
+    //Save phi data to file
+    std::ofstream file_pre("phi_pre_data.txt");
+    for(int nx = 0; nx < N; nx++) {
+        for(int ny = 0; ny < N; ny++) {
+            for(int nz = 0; nz < N; nz++) {
+                file_pre << slice.phi(nx, ny, nz) << std::endl;
+            }
+        }
+    }
+
+
+    for(int i=0;i<50;i++) {
+        Evolution::RK4_step();
+        std::cout << "Step " << i << std::endl;
+        //print phi(0,0,0) to check if its not nan
+        std::cout << "phi(0,0,0) = " << slice.phi(0,0,0) << std::endl;
+    }
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
     std::cout << "Elapsed time for Evolution::F_K: " << elapsed.count() << " s" << std::endl;
     
+    //Save phi data to file
+    std::ofstream file("phi_data.txt");
+    for(int nx = 0; nx < N; nx++) {
+        for(int ny = 0; ny < N; ny++) {
+            for(int nz = 0; nz < N; nz++) {
+                file << slice.phi(nx, ny, nz) << std::endl;
+            }
+        }
+    }
 
     return 0;
 }

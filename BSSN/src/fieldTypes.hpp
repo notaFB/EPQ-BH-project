@@ -3,8 +3,9 @@
 
 #include <vector>
 #include <array>
+#include <iostream>
 
-#define N 80 // Grid size in each spatial dimension
+#define N 31 // Grid size in each spatial dimension
 #define NX N
 #define NY N
 #define NZ N
@@ -12,6 +13,8 @@
 #define DX 0.1 // Grid spacing in each spatial dimension
 #define DY 0.1
 #define DZ 0.1
+
+#define DT 0.001 // Time step
 
 #define eta 1.0 // Damping parameter,  ~ M
 
@@ -135,6 +138,9 @@ public:
         gammaTilde += rhs.gammaTilde;
         ATilde += rhs.ATilde;
         GammaTilde += rhs.GammaTilde;
+        alpha += rhs.alpha;
+        beta += rhs.beta;
+        B += rhs.B;
         return *this;
     }
 
@@ -144,6 +150,9 @@ public:
         gammaTilde *= rhs;
         ATilde *= rhs;
         GammaTilde *= rhs;
+        alpha *= rhs;
+        beta *= rhs;
+        B *= rhs;
         return *this;
     }
 
@@ -154,6 +163,29 @@ public:
         ATilde = rhs.ATilde;
         GammaTilde = rhs.GammaTilde;
         return *this;
+    }
+
+    void printSample()
+    {
+        //print 0,0,0 of every member (not just the special ones) after the members name
+        std::cout << "phi(0,0,0): " << phi(0,0,0) << std::endl;
+        std::cout << "K(0,0,0): " << K(0,0,0) << std::endl;
+        std::cout << "gammaTilde(0,0,0,0,0): " << gammaTilde(0,0,0,0,0) << std::endl;
+        std::cout << "ATilde(0,0,0,0,0): " << ATilde(0,0,0,0,0) << std::endl;
+        std::cout << "GammaTilde(0,0,0,0): " << GammaTilde(0,0,0,0) << std::endl;
+        std::cout << "alpha(0,0,0): " << alpha(0,0,0) << std::endl;
+        std::cout << "beta(0,0,0,0): " << beta(0,0,0,0) << std::endl;
+        std::cout << "B(0,0,0,0): " << B(0,0,0,0) << std::endl;
+
+        std::cout << "gamma(0,0,0,0,0): " << gamma(0,0,0,0,0) << std::endl;
+        std::cout << "gammaInv(0,0,0,0,0): " << gammaInv(0,0,0,0,0) << std::endl;
+        std::cout << "ATildeInv(0,0,0,0,0): " << ATildeInv(0,0,0,0,0) << std::endl;
+        std::cout << "Christoffel(0,0,0,0,0,0): " << Christoffel(0,0,0,0,0,0) << std::endl;
+        std::cout << "ChristoffelTilde(0,0,0,0,0,0): " << ChristoffelTilde(0,0,0,0,0,0) << std::endl;
+        std::cout << "Ricci(0,0,0,0,0): " << Ricci(0,0,0,0,0) << std::endl;
+        std::cout << "aux(0,0,0,0,0): " << aux(0,0,0,0,0) << std::endl;
+
+
     }
 };
 

@@ -10,9 +10,11 @@ public:
 
     // Accessors for the four spatial slices
     SpatialSlice& getV1Slice();
-    SpatialSlice& getV2Slice();
-    SpatialSlice& getV3Slice();
-    SpatialSlice& getV4Slice();
+    SpatialSlice& getk1Slice();
+    SpatialSlice& getk2Slice();
+    SpatialSlice& getk3Slice();
+    SpatialSlice& getk4Slice();
+    SpatialSlice& getAuxSlice();
 
     // Delete copy constructor and assignment operator
     FieldData(const FieldData&) = delete;
@@ -24,9 +26,11 @@ private:
 
     // The four spatial slices
     SpatialSlice v1;
-    SpatialSlice v2;
-    SpatialSlice v3;
-    SpatialSlice v4;
+    SpatialSlice k1;
+    SpatialSlice k2;
+    SpatialSlice k3;
+    SpatialSlice k4;
+    SpatialSlice aux;
 };
 
 #endif // FIELDDATA_HPP

@@ -14,8 +14,9 @@ static void computeInverseTensor(TensorField& T, TensorField& TInv, TensorField&
 static void computeChristoffel(TensorField& gamma, TensorField& gammaInv, Tensor3Field& Christoffel);
 
 static void computerRicci(SpatialSlice& slice);
+static void computegamma(SpatialSlice& slice);
 
-static void compute(SpatialSlice& slice);
+static void computeGeometry(SpatialSlice& slice);
 
 };
 
